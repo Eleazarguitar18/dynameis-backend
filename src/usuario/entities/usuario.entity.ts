@@ -2,32 +2,31 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
+  ManyToOne,
+  JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne,
 } from 'typeorm';
+import { Persona } from '../../persona/entities/persona.entity';
 
-@Entity({ name: 'persona' })
-export class Persona {
+@Entity({ name: 'user' })
+export class Usuario{
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ length: 100 })
-  nombres: string;
+  name: string;
 
-  @Column({ length: 50 })
-  p_apellido: string;
+  @Column({ length: 150, unique: true })
+  email: string;
 
-  @Column({ length: 50, nullable: true })
-  s_apellido?: string;
+  @Column()
+  password: string;
 
-  @Column({ type: 'date' })
-  fecha_nacimiento: Date;
-
-  @Column({ length: 20, unique: true })
-  ci: string;
-
-  @Column({ length: 10 })
-  genero: string;
+  @OneToOne(() => Persona, { eager: true })
+  @JoinColumn({ name: 'id_persona' })
+  persona: Persona;
 
   @Column({ default: true })
   estado: boolean;

@@ -1,15 +1,30 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePersonaDto } from './dto/create-persona.dto';
 import { UpdatePersonaDto } from './dto/update-persona.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Persona } from './entities/persona.entity';
 
 @Injectable()
 export class PersonaService {
-  create(createPersonaDto: CreatePersonaDto) {
-    return 'This action adds a new persona';
+
+  constructor(
+    @InjectRepository(Persona)
+    private personaRepository: Repository<Persona>,
+  ) {}
+  async create(createPersonaDto: CreatePersonaDto) {
+    // const {...personaData}=createPersonaDto;
+    const persona = this.personaRepository.create(createPersonaDto);
+    const personaData = await this.personaRepository.save(persona);
+    return personaData;
   }
 
-  findAll() {
-    return `This action returns all persona`;
+  async findAll() {
+    const data = await this.personaRepository.find();
+    if (data.length === 0) {
+      throw new NotFoundException(`No existen datos de personass`);
+    }
+    return data;
   }
 
   findOne(id: number) {
