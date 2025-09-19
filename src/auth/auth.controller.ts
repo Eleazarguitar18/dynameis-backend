@@ -17,7 +17,7 @@ import { Public } from './config/auth_public';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
+  @Public()
   @Post('register')
   create(@Body() createAuthDto: CreateAuthDto) {
     return this.authService.create(createAuthDto);
