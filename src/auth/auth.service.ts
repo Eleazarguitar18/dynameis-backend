@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { PersonaService } from 'src/persona/persona.service';
@@ -67,11 +67,51 @@ export class AuthService {
       return null;
     }
     const payload = { sub: user.id, username: user.name };
-    const access_token = await this.jwtService.signAsync(payload);
+    const access_token = await this.jwtService.signAsync(payload, {
+      secret: this.configService.get('JWT_SECRET'),
+      expiresIn: this.configService.get('JWT_EXPIRES_IN') || '15m',
+    });
+    const refreshToken = await this.jwtService.signAsync(
+      { sub: user.id },
+      {
+        secret: this.configService.get('JWT_REFRESH_SECRET'),
+        expiresIn: this.configService.get('JWT_REFRESH_EXPIRES_IN') || '7d',
+      },
+    );
     return {
-      "access_token":access_token,
-      "user":user,
+      access_token: access_token,
+      refresh_token: refreshToken,
+      user: user,
     };
+  }
+
+  async refresh_token(
+    refresh_token: string,
+  ): Promise<{ access_token: string }> {
+    try {
+      const payload = await this.jwtService.verifyAsync(refresh_token, {
+        secret: this.configService.get('JWT_REFRESH_SECRET'),
+      });
+
+      const user = await this.userRepository.findOne({
+        where: { id: payload.sub },
+      });
+      if (!user) {
+        throw new UnauthorizedException('User not found');
+      }
+
+      const newAccessToken = await this.jwtService.signAsync(
+        { sub: user.id, username: user.name },
+        {
+          secret: this.configService.get('JWT_SECRET'),
+          expiresIn: this.configService.get('JWT_EXPIRES_IN') || '15m',
+        },
+      );
+
+      return { access_token: newAccessToken };
+    } catch (e) {
+      throw new UnauthorizedException('Invalid or expired refresh token');
+    }
   }
 
   findAll() {
