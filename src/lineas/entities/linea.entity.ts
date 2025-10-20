@@ -1,13 +1,16 @@
+import { BaseEntityAudit } from 'src/common/filters/entities/base-entity.audit';
+import { Ruta } from 'src/rutas/entities/ruta.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity({ name: 'linea' })
-export class Linea {
+export class Linea extends BaseEntityAudit {
   @PrimaryGeneratedColumn()
   id: number;
   @Column({ length: 100 })
@@ -17,16 +20,8 @@ export class Linea {
   // CODIGO DE COLOR EN HEXADECIMAL PARA EL FRONT
   @Column({ length: 150 })
   descripcion: string;
-  @Column({ default: true })
-  @Column({ nullable: true })
-  id_user_create: number;
 
-  @Column({ nullable: true })
-  id_user_update?: number;
-
-  @CreateDateColumn({ type: 'timestamp' })
-  created_at: Date;
-
-  @UpdateDateColumn({ type: 'timestamp' })
-  updated_at: Date;
+  // Entidad Linea
+  @OneToMany(() => Ruta, (ruta) => ruta.linea)
+  rutas: Ruta[];
 }

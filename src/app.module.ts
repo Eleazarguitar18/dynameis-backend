@@ -26,9 +26,10 @@ import { PuntosModule } from './puntos/puntos.module';
         username: config.get<string>('DATABASE_USER'),
         password: config.get<string>('DATABASE_PASSWORD'),
         database: config.get<string>('DATABASE_NAME'),
-        ssl: {
-          rejectUnauthorized: false, // necesario para Neon, Render, etc.
-        },
+        ssl: false,
+        //ssl: {
+        //  rejectUnauthorized: false, // necesario para Neon, Render, etc.
+        //},
         autoLoadEntities: true,
         synchronize: true, // solo desarrollo
       }),

@@ -1,6 +1,13 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { RutaPunto } from 'src/rutas/entities/ruta_puntos.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 @Entity({ name: 'punto' })
-
 export class Punto {
   @PrimaryGeneratedColumn()
   id: number;
@@ -26,4 +33,7 @@ export class Punto {
 
   @UpdateDateColumn({ type: 'timestamp' })
   updated_at: Date;
+
+  @OneToMany(() => RutaPunto, (rutaPunto) => rutaPunto.punto)
+  rutaPuntos: RutaPunto[];
 }
