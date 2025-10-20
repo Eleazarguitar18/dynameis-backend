@@ -8,7 +8,10 @@ import { PuntosModule } from 'src/puntos/puntos.module';
 import { Punto } from 'src/puntos/entities/punto.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Ruta, RutaPunto, Punto]), PuntosModule],
+  imports: [
+    TypeOrmModule.forFeature([Ruta, RutaPunto, Punto]),
+    forwardRef(() => PuntosModule),
+  ],
   controllers: [RutasController],
   providers: [RutasService],
   exports: [TypeOrmModule, RutasModule],
