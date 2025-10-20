@@ -1,13 +1,10 @@
 import { BaseEntityAudit } from 'src/common/filters/entities/base-entity.audit';
 import {
   Column,
-  CreateDateColumn,
   Entity,
   JoinColumn,
-  ManyToOne,
-  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 import { Ruta } from './ruta.entity';
 import { Punto } from 'src/puntos/entities/punto.entity';
@@ -15,10 +12,10 @@ import { Punto } from 'src/puntos/entities/punto.entity';
 export class RutaPunto extends BaseEntityAudit {
   @PrimaryGeneratedColumn()
   id: number;
-  @ManyToOne(() => Ruta, (ruta) => ruta.rutaPuntos)
-  @JoinColumn({ name: 'id_ruta' })
+  @OneToOne(() => Ruta, { eager: true })
+  @JoinColumn({ name: 'id_persona' })
   ruta: Ruta;
-  @ManyToOne(() => Punto, (punto) => punto.rutaPuntos)
+  @OneToOne(() => Punto, { eager: true })
   @JoinColumn({ name: 'id_punto' })
   punto: Punto;
   @Column()

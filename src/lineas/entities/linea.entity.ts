@@ -1,13 +1,6 @@
 import { BaseEntityAudit } from 'src/common/filters/entities/base-entity.audit';
 import { Ruta } from 'src/rutas/entities/ruta.entity';
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'linea' })
 export class Linea extends BaseEntityAudit {

@@ -2,7 +2,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
   JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
@@ -38,7 +37,7 @@ export class Usuario {
 
   @UpdateDateColumn({ type: 'timestamp' })
   updated_at: Date;
-  
+
   @OneToOne(() => Persona, { eager: true })
   @JoinColumn({ name: 'id_persona' })
   persona: Persona;

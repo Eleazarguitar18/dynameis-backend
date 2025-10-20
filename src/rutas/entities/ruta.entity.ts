@@ -2,15 +2,12 @@ import { BaseEntityAudit } from 'src/common/filters/entities/base-entity.audit';
 import { Linea } from 'src/lineas/entities/linea.entity';
 import {
   Column,
-  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
-import { RutaPunto } from './ruta_puntos.entity';
+@Entity({ name: 'ruta' })
 export class Ruta extends BaseEntityAudit {
   @PrimaryGeneratedColumn()
   id: number;
@@ -25,6 +22,6 @@ export class Ruta extends BaseEntityAudit {
   @JoinColumn({ name: 'id_linea' })
   linea: Linea;
 
-  @OneToMany(() => RutaPunto, (rutaPunto) => rutaPunto.ruta)
-  rutaPuntos: RutaPunto[];
+  // @OneToMany(() => RutaPunto, (rutaPunto) => rutaPunto.ruta)
+  // rutaPuntos: RutaPunto[];
 }
