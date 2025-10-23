@@ -9,6 +9,6 @@ import { RutasModule } from 'src/rutas/rutas.module';
   imports: [TypeOrmModule.forFeature([Linea]), forwardRef(() => RutasModule)],
   controllers: [LineasController],
   providers: [LineasService],
-  exports: [LineasService],
+  exports: [LineasService, LineasModule],
 })
 export class LineasModule {}

@@ -15,7 +15,11 @@ export class PuntosService {
     const punto = this.puntosRepository.create(createPuntoDto);
     return await this.puntosRepository.save(punto);
   }
+  // async create_array(createPuntoDto: CreatePuntoDto[]) {
 
+  //   const punto = this.puntosRepository.create(createPuntoDto);
+  //   return await this.puntosRepository.save(punto);
+  // }
   async findAll() {
     const data = await this.puntosRepository.find();
     if (data.length === 0) {

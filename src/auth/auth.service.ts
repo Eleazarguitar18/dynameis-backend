@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { PersonaService } from 'src/persona/persona.service';
@@ -7,7 +11,7 @@ import { Usuario } from 'src/usuario/entities/usuario.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
-import { hash } from 'crypto';
+// import { hash } from 'crypto';
 import { JwtService } from '@nestjs/jwt';
 import { SignInDto } from './dto/SingInDto';
 import { Persona } from 'src/persona/entities/persona.entity';
@@ -23,19 +27,19 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
   async create(createAuthDto: CreateAuthDto) {
-     const emailUnique= await this.userRepository.findOne({
-      where:{email:createAuthDto.email}
+    const emailUnique = await this.userRepository.findOne({
+      where: { email: createAuthDto.email },
     });
-    if(emailUnique){
+    if (emailUnique) {
       throw new UnauthorizedException('El email ya se encuentra registrado');
     }
 
-    const ciUnique= await this.personaRepository.findOne({
-      where:{ci:createAuthDto.ci}
-    });
-    if(ciUnique){
-      throw new UnauthorizedException('El ci ya se encuentra registrado');
-    }
+    // const ciUnique = await this.personaRepository.findOne({
+    //   where: { ci: createAuthDto.ci },
+    // });
+    // if (ciUnique) {
+    //   throw new UnauthorizedException('El ci ya se encuentra registrado');
+    // }
     const persona = await this.personaService.create(createAuthDto);
 
     // generaciond de contraseña
@@ -52,7 +56,6 @@ export class AuthService {
       estado: createAuthDto.estado,
       persona: persona,
     };
-   
 
     const user = this.userRepository.create(userDto);
     const data = await this.userRepository.save(user);

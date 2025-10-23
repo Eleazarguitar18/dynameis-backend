@@ -23,8 +23,8 @@ export class Persona {
   @Column({ type: 'date' })
   fecha_nacimiento: Date;
 
-  @Column({ length: 20, unique: true })
-  ci: string;
+  // @Column({ length: 20, unique: true })
+  // ci: string;
 
   @Column({ length: 10 })
   genero: string;

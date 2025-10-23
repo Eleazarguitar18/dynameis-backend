@@ -7,7 +7,6 @@ import { Persona } from './entities/persona.entity';
 
 @Injectable()
 export class PersonaService {
-
   constructor(
     @InjectRepository(Persona)
     private personaRepository: Repository<Persona>,
@@ -33,13 +32,13 @@ export class PersonaService {
     }
     return data;
   }
-  async buscar_por_ci(ci: string) {
-    const data = await this.personaRepository.findOneBy({ ci: ci });
-    if (!data) {
-      throw new NotFoundException(`No existen datos de la persona con el seguiente ci: ${ci}`);
-    }
-    return data;
-  }
+  // async buscar_por_ci(ci: string) {
+  //   const data = await this.personaRepository.findOneBy({ ci: ci });
+  //   if (!data) {
+  //     throw new NotFoundException(`No existen datos de la persona con el seguiente ci: ${ci}`);
+  //   }
+  //   return data;
+  // }
 
   update(id: number, updatePersonaDto: UpdatePersonaDto) {
     return `This action updates a #${id} persona`;

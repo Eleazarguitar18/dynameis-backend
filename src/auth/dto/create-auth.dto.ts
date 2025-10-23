@@ -1,14 +1,9 @@
-import {
-  IsString,
-  IsEmail,
-  IsNotEmpty,
-  IsOptional,
-} from 'class-validator';
+import { IsString, IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
 export class CreateAuthDto {
   @IsString()
   @IsOptional()
   name?: string;
-  
+
   @IsNotEmpty()
   @IsEmail({}, { message: 'El email no tiene un formato válido' })
   email: string;
@@ -17,7 +12,7 @@ export class CreateAuthDto {
   @IsNotEmpty()
   password: string;
   estado: boolean = true;
-// datos de la persona
+  // datos de la persona
   @IsString()
   @IsNotEmpty()
   nombres: string;
@@ -30,9 +25,6 @@ export class CreateAuthDto {
   @IsString()
   @IsNotEmpty()
   fecha_nacimiento: Date;
-  @IsString()
-  @IsNotEmpty()
-  ci: string;
   @IsString()
   @IsNotEmpty()
   genero: string;
