@@ -15,7 +15,7 @@ export class CreateRutaPuntosDto {
   @IsNotEmpty()
   ruta: Ruta;
   @IsNotEmpty()
-  punto: CreatePuntoDto;
+  punto: Punto;
   @IsNumber()
   orden: number;
 }

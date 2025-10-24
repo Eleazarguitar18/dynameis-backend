@@ -1,17 +1,17 @@
-import { Linea } from 'src/lineas/entities/linea.entity';
-import { PartialType } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
-import { Punto } from 'src/puntos/entities/punto.entity';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
+import { IsNotEmpty } from 'class-validator';
 import { CreateLineaDto } from 'src/lineas/dto/create-linea.dto';
 import { CreateRutaDto } from './create-ruta.dto';
-import { CreateRutaPuntosDto } from './create-ruta-puntos-dto';
 import { CreatePuntoDto } from 'src/puntos/dto/create-punto.dto';
 
 export class CreateRutaGeneralDto {
+  @ApiProperty({ type: CreateLineaDto })
   @IsNotEmpty()
   linea: CreateLineaDto;
+  @ApiProperty({ type: CreateLineaDto })
   @IsNotEmpty()
   ruta: CreateRutaDto;
+  @ApiProperty({ type: CreateLineaDto })
   @IsNotEmpty()
   puntos: CreatePuntoDto[];
 }

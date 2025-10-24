@@ -1,15 +1,30 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { RutasService } from './rutas.service';
 import { CreateRutaDto } from './dto/create-ruta.dto';
 import { UpdateRutaDto } from './dto/update-ruta.dto';
+import { CreateRutaGeneralDto } from './dto/create-ruta-general';
+import { ApiBody } from '@nestjs/swagger';
 
 @Controller('rutas')
 export class RutasController {
   constructor(private readonly rutasService: RutasService) {}
 
   @Post()
-  create(@Body() createRutaDto: CreateRutaDto) {
+  async create(@Body() createRutaDto: CreateRutaDto) {
     return this.rutasService.create(createRutaDto);
+  }
+  @Post('rutas_general')
+  @ApiBody({ type: CreateRutaGeneralDto })
+  async create_general(@Body() CreateRutaGeneralDto: CreateRutaGeneralDto) {
+    return this.rutasService.create_general(CreateRutaGeneralDto);
   }
 
   @Get()

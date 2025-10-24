@@ -3,6 +3,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -12,10 +13,10 @@ import { Punto } from 'src/puntos/entities/punto.entity';
 export class RutaPunto extends BaseEntityAudit {
   @PrimaryGeneratedColumn()
   id: number;
-  @OneToOne(() => Ruta, { eager: true })
-  @JoinColumn({ name: 'id_persona' })
+  @ManyToOne(() => Ruta, { eager: true })
+  @JoinColumn({ name: 'id_ruta' })
   ruta: Ruta;
-  @OneToOne(() => Punto, { eager: true })
+  @ManyToOne(() => Punto, { eager: true })
   @JoinColumn({ name: 'id_punto' })
   punto: Punto;
   @Column()

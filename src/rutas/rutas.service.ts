@@ -12,12 +12,15 @@ import { CreatePuntoDto } from 'src/puntos/dto/create-punto.dto';
 import { PuntosService } from 'src/puntos/puntos.service';
 import { Punto } from 'src/puntos/entities/punto.entity';
 import { CreateRutaPuntosDto } from './dto/create-ruta-puntos-dto';
+import { RutaPunto } from './entities/ruta_puntos.entity';
 
 @Injectable()
 export class RutasService {
   constructor(
     @InjectRepository(Ruta)
     private rutaRepository: Repository<Ruta>,
+    @InjectRepository(RutaPunto)
+    private rutaPuntoRepository: Repository<RutaPunto>,
     private readonly lineaService: LineasService,
     private readonly puntosService: PuntosService,
   ) {}
@@ -26,8 +29,13 @@ export class RutasService {
     return this.rutaRepository.save(ruta);
     // return 'This action adds a new ruta';
   }
-  async create_ruta_puntos(createRutaPuntosDto: CreateRutaPuntosDto) {}
+  async create_ruta_puntos(createRutaPuntosDto: CreateRutaPuntosDto) {
+    const rutaPuntos: RutaPunto =
+      this.rutaPuntoRepository.create(createRutaPuntosDto);
+    return this.rutaPuntoRepository.save(rutaPuntos);
+  }
   async create_general(createRutaGeneralDto: CreateRutaGeneralDto) {
+    console.log(createRutaGeneralDto);
     const lineaDto: CreateLineaDto = createRutaGeneralDto.linea;
     const linea: Linea = await this.lineaService.create(lineaDto);
     // createRutaGeneralDto.ruta.linea = linea;
@@ -36,10 +44,10 @@ export class RutasService {
     const ruta: Ruta = await this.create(rutaDto);
     const puntosDto: CreatePuntoDto[] = createRutaGeneralDto.puntos;
     let orden = 1;
-
+    const puntos: Punto[] = [];
     for (const puntoDto of puntosDto) {
       const punto: Punto = await this.puntosService.create(puntoDto);
-
+      puntos.push(punto);
       const rutaPuntosDto: CreateRutaPuntosDto = {
         ruta: ruta,
         punto: punto,
@@ -48,8 +56,16 @@ export class RutasService {
 
       await this.create_ruta_puntos(rutaPuntosDto);
     }
-
-    return 'QUEDA PENDIENTE LA RESPUESTA PERO SI GUARDA BRO';
+    return {
+      status: 201,
+      success: true,
+      message: 'Se creo la ruta con exito!',
+      data: {
+        linea: linea,
+        ruta: ruta,
+        puntos: puntos,
+      },
+    };
   }
 
   findAll() {

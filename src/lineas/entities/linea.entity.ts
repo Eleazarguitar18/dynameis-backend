@@ -11,7 +11,7 @@ export class Linea extends BaseEntityAudit {
   @Column({ length: 100 })
   color: string;
   // CODIGO DE COLOR EN HEXADECIMAL PARA EL FRONT
-  @Column({ length: 150 })
+  @Column({ length: 255 })
   descripcion: string;
 
   // Entidad Linea
