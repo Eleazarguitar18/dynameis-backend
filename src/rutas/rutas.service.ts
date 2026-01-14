@@ -35,7 +35,7 @@ export class RutasService {
     return this.rutaPuntoRepository.save(rutaPuntos);
   }
   async create_general(createRutaGeneralDto: CreateRutaGeneralDto) {
-    console.log(createRutaGeneralDto);
+    //console.log(createRutaGeneralDto);
     const lineaDto: CreateLineaDto = createRutaGeneralDto.linea;
     const linea: Linea = await this.lineaService.create(lineaDto);
     // createRutaGeneralDto.ruta.linea = linea;

@@ -24,6 +24,8 @@ export class RutasController {
   @Post('rutas_general')
   @ApiBody({ type: CreateRutaGeneralDto })
   async create_general(@Body() CreateRutaGeneralDto: CreateRutaGeneralDto) {
+    //return CreateRutaGeneralDto;
+    //console.log(CreateRutaGeneralDto);
     return this.rutasService.create_general(CreateRutaGeneralDto);
   }
 
