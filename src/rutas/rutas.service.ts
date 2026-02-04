@@ -87,9 +87,9 @@ export class RutasService {
   remove(id: number) {
     return `This action removes a #${id} ruta`;
   }
-  construirGrafo(puntos: PuntoDto[], rutaPuntos: any[]): GrafoDto {
+  construirGrafo(puntos: PuntoDto[], rutaPuntos: any[]) {
     const nodos = new Map<number, NodoDto>();
-    const aristas = new Map<number, AristaDto[]>(); // Registrar nodos
+    const aristas = new Map<number, AristaDto[]>();
     puntos.forEach((p) => {
       nodos.set(p.id, {
         id: p.id,
@@ -98,12 +98,11 @@ export class RutasService {
         longitud: p.longitud,
       });
     });
-    // Registrar aristas
     rutaPuntos.forEach((rp) => {
       const arista: AristaDto = {
         origen: rp.origenId,
         destino: rp.destinoId,
-        peso: rp.distancia_al_siguiente, // en metros
+        peso: rp.distancia_al_siguiente,
         lineaId: rp.lineaId,
         modo: 'minibus',
       };
@@ -111,7 +110,10 @@ export class RutasService {
         aristas.set(rp.origenId, []);
       }
       aristas.get(rp.origenId)!.push(arista);
-    });
-    return { nodos, aristas };
+    }); // Convertir Map a objeto JSON serializable
+    return {
+      nodos: Object.fromEntries(nodos),
+      aristas: Object.fromEntries(aristas),
+    };
   }
 }
