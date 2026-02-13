@@ -10,7 +10,7 @@ export class Actividad extends BaseEntity {
   @Column({ type: 'text', nullable: true })
   descripcion: string;
 
-  @Column({ type: 'int', default: 0 })
+  @Column({ type: 'numeric', default: 0 })
   puntos_base: number;
 
   @Column({ nullable: true })
