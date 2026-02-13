@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { LessThan, Repository } from 'typeorm';
 import { Actividad } from './entities/actividad.entity';
 import { CreateActividadDto, UpdateActividadDto } from './dto/create-actividad.dto';
 
@@ -25,6 +25,17 @@ export class ActividadService {
       order: { nombre: 'ASC' },
     });
   }
+  async sanciones() {
+  return await this.actividadRepo.find({
+    where: {
+      puntos_base: LessThan(0), // 👈 Esto genera el SQL: "puntos_base < 0"
+      estado: true,
+    },
+    order: { 
+      nombre: 'ASC' 
+    },
+  });
+}
 
   async update(id: number, dto: UpdateActividadDto, userId: number) {
     const actividad = await this.actividadRepo.preload({
